@@ -4,6 +4,8 @@ How to start the KrampTestService application
 ---
 
 1. Run `mvn clean install` to build your application
+1. Run `mvn package` to package your application
+1. Check config.yml and set your values
 1. Start application with `java -jar target/kramp-test-service-1.0.0.jar server config.yml`
 1. To check that your application is running enter url `http://localhost:8080`
 
@@ -16,3 +18,5 @@ How to see the code
 ---
 
 The entry point to the application is in org.kramp.testservice.KrampTestServiceApplication, there you will find the resources registered and the configuration management. 
+
+
