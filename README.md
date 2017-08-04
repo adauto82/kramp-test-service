@@ -22,5 +22,5 @@ The entry point to the application is in org.kramp.testservice.KrampTestServiceA
 Why i ussed Dropwizzard
 ---
 
-[Dropwizard](https://github.com/dropwizard/dropwizard)
+I choosed [Dropwizard](https://github.com/dropwizard/dropwizard) because it simplified the building of the API resolving the marshalling and unmarshalling of the objects and camed with an ops-friendly library called metrics. Also it used my first choice that was Jersey, and it uses it internally, but mostly because of the speed that allowed me to build the API, resolving the metrics. Also i wanted to tested because i read a lot of recommendations for it and i just did 3 years of spring API’s so i wanted something different.
 

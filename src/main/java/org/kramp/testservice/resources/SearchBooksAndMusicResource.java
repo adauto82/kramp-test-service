@@ -1,6 +1,7 @@
 package org.kramp.testservice.resources;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,6 +59,7 @@ public class SearchBooksAndMusicResource {
 
         ITunesSearchResults itunesResponse = itunesClient.searchAlbums(
                 searchQuery, country, maxResults);
+        
         if (itunesResponse != null) { // If there was no error
             for (ITunesSearchResult itunesSearchResult : itunesResponse
                     .getResults()) {
@@ -79,7 +81,10 @@ public class SearchBooksAndMusicResource {
                         SearchBooksAndMusicResult.BOOK));
             }
         }
-
+        //Sort the result by title alphabetically.
+        serviceResponse.stream().sorted(
+                (searchResult, anotherSearchResult) -> searchResult.getTitle()
+                .compareTo(anotherSearchResult.getTitle()));
         return serviceResponse;
     }
 

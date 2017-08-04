@@ -46,9 +46,6 @@ public class KrampTestServiceApplication extends
                 configuration.getResultsLimit());
         environment.jersey().register(searchResource);
         // Search healthCheck initialization and register
-        final SearchBooksAndMusicHealthCheck healthCheck = new SearchBooksAndMusicHealthCheck(
-                client);
-        environment.healthChecks().register("search", healthCheck);
         final GoogleAPIHealthCheck googleHealthCheck = new GoogleAPIHealthCheck(
                 client);
         environment.healthChecks().register("google books", googleHealthCheck);
