@@ -19,61 +19,68 @@ import org.kramp.testservice.api.itunes.ITunesSearchResult;
 import org.kramp.testservice.api.itunes.ITunesSearchResults;
 import org.kramp.testservice.client.GoogleAPIClient;
 import org.kramp.testservice.client.ITunesSearchClient;
+import org.kramp.testservice.client.ServiceHelper;
 
-import com.codahale.metrics.annotation.ExceptionMetered;
-import com.codahale.metrics.annotation.Metered;
 import com.codahale.metrics.annotation.Timed;
-
 
 //Path parameters tend to be cached, given the proper parameters.Check with 
 //project manager if search results may vary for the external services.
 @Path("/search")
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class SearchBooksAndMusicResource {
-    
-    final private static int DEFAULT_MAX_RESULTS = 5;
-    
+
     private ITunesSearchClient itunesClient;
     private GoogleAPIClient googleAPIClient;
 
     private Integer maxResults;
 
-    public SearchBooksAndMusicResource(ITunesSearchClient itunesSearchClient, 
+    public SearchBooksAndMusicResource(ITunesSearchClient itunesSearchClient,
             GoogleAPIClient googleAPIClient, Integer maxResults) {
         this.itunesClient = itunesSearchClient;
         this.googleAPIClient = googleAPIClient;
-        this.maxResults = maxResults!=null?maxResults:DEFAULT_MAX_RESULTS;
+        this.maxResults = maxResults != null ? maxResults
+                : ServiceHelper.DEFAULT_LIMIT;
     }
 
     @GET
     @Timed
     @Path("/{searchQuery}")
-    public List<SearchBooksAndMusicResult> searchBooksAndMusic(@Context HttpServletRequest request,
+    public List<SearchBooksAndMusicResult> searchBooksAndMusic(
+            @Context HttpServletRequest request,
             @PathParam("searchQuery") String searchQuery) {
         Locale locale = request.getLocale();
         ArrayList<SearchBooksAndMusicResult> serviceResponse = new ArrayList<SearchBooksAndMusicResult>();
         String country = "US";
-        if (locale != null && locale.getCountry() != null && locale.getCountry().length()==2) {
+        if (locale != null && locale.getCountry() != null
+                && locale.getCountry().length() == 2) {
             country = locale.getCountry();
         }
-       
-        ITunesSearchResults itunesResponse = itunesClient.searchAlbums(searchQuery, country, maxResults);
-        for (ITunesSearchResult itunesSearchResult : itunesResponse.getResults()) {
-            serviceResponse.add(new SearchBooksAndMusicResult(
-                    itunesSearchResult.getCollectionName(), 
-                    itunesSearchResult.getArtistName(), 
-                    SearchBooksAndMusicResult.ALBUM));
+
+        ITunesSearchResults itunesResponse = itunesClient.searchAlbums(
+                searchQuery, country, maxResults);
+        if (itunesResponse != null) { // If there was no error
+            for (ITunesSearchResult itunesSearchResult : itunesResponse
+                    .getResults()) {
+                serviceResponse.add(new SearchBooksAndMusicResult(
+                        itunesSearchResult.getCollectionName(),
+                        itunesSearchResult.getArtistName(),
+                        SearchBooksAndMusicResult.ALBUM));
+            }
         }
 
-        GoogleBooksResults googleBooksResults = googleAPIClient.searchBooks(searchQuery, maxResults);
-        for (GoogleBooksResult googleBooksResult : googleBooksResults.getItems()) {
-            serviceResponse.add(new SearchBooksAndMusicResult(
-                    googleBooksResult.getVolumeInfo().getTitle(), 
-                    googleBooksResult.getVolumeInfo().getAuthors(), 
-                    SearchBooksAndMusicResult.BOOK));
+        GoogleBooksResults googleBooksResults = googleAPIClient.searchBooks(
+                searchQuery, maxResults);
+        if (googleBooksResults != null) { // If there was no error
+            for (GoogleBooksResult googleBooksResult : googleBooksResults
+                    .getItems()) {
+                serviceResponse.add(new SearchBooksAndMusicResult(
+                        googleBooksResult.getVolumeInfo().getTitle(),
+                        googleBooksResult.getVolumeInfo().getAuthors(),
+                        SearchBooksAndMusicResult.BOOK));
+            }
         }
 
         return serviceResponse;
     }
-    
+
 }

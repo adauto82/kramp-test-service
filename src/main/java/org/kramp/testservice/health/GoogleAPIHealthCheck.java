@@ -18,8 +18,9 @@ public class GoogleAPIHealthCheck extends HealthCheck {
     @Override
     protected Result check() throws Exception {
         GoogleBooksResults results = googleAPIClient.searchBooks("Shakespeare", 5);
-        if (results.getTotalItems() == 0) {
-            Result.unhealthy("I got 0 results for 'Shakespeare' search. It should return at least 5 books");
+        if (results == null || results.getTotalItems() == 0) {
+            return Result
+                    .unhealthy("I got 0 results for 'Shakespeare' search. It should return at least 5 books. Check the logs");
         }
         return Result.healthy("I got "+results.getTotalItems()+" for 'Shakespeare' search");
     }
