@@ -9,16 +9,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SearchBooksAndMusicResult {
-    /*Requirement
-    The response elements will only contain title, authors(/artists) and 
-    information whether it's a book or an album.*/
-    
+    /*
+     * Requirement The response elements will only contain title,
+     * authors(/artists) and information whether it's a book or an album.
+     */
+
     public SearchBooksAndMusicResult(String title, String authors, String type) {
         this.title = title;
         this.authors = new ArrayList<String>(Arrays.asList(authors));
         this.type = type;
     }
-    
+
     public SearchBooksAndMusicResult(String title, List<String> authors,
             String type) {
         this.title = title;
@@ -31,12 +32,12 @@ public class SearchBooksAndMusicResult {
 
     @NotEmpty
     private String title;
-    
- // An author can be "the maker of anything; creator; originator:"
- // http://www.dictionary.com/browse/author
+
+    // An author can be "the maker of anything; creator; originator:"
+    // http://www.dictionary.com/browse/author
     @NotEmpty
-    private List<String> authors; 
-    
+    private List<String> authors;
+
     @NotEmpty
     private String type;
 

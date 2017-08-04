@@ -1,6 +1,5 @@
 package org.kramp.testservice.client;
 
-import java.net.URISyntaxException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -10,8 +9,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
 import org.kramp.testservice.api.itunes.ITunesSearchResults;
 import org.slf4j.LoggerFactory;
 
