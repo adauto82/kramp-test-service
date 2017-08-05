@@ -39,7 +39,7 @@ public class GoogleAPIClient {
         try {
             Response googleResponse = futureResponse.get();
             if (googleResponse != null
-                    && ServiceHelper.isResponseOk(googleResponse.getStatus())) {
+                    && googleResponse.getStatus() == Response.Status.OK.getStatusCode()) {
                 results = googleResponse.readEntity(GoogleBooksResults.class);
             }
         } catch (InterruptedException e) {

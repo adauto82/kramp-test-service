@@ -46,8 +46,7 @@ public class ITunesSearchClient {
         try {
             itunesSearchResponse = futureResponse.get();
             if (itunesSearchResponse != null
-                    && ServiceHelper.isResponseOk(itunesSearchResponse
-                            .getStatus())) {
+                    && itunesSearchResponse.getStatus() == Response.Status.OK.getStatusCode()) {
                 results = itunesSearchResponse
                         .readEntity(ITunesSearchResults.class);
             }
