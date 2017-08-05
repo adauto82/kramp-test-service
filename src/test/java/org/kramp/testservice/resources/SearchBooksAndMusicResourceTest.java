@@ -16,7 +16,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.reset;
@@ -53,7 +53,7 @@ public class SearchBooksAndMusicResourceTest {
         itunesSearchResults.setResults(results);
         for (int i = 0; i < 5; i++) {
             ITunesSearchResult result = new ITunesSearchResult();
-            result.setCollectionName("success-" + i);
+            result.setCollectionName(Character.toString((char) (97+i))+"-success-" + i);
             result.setArtistName("musical-author-" + i);
             itunesSearchResults.getResults().add(result);
         }
@@ -65,7 +65,7 @@ public class SearchBooksAndMusicResourceTest {
         for (int i = 0; i < 5; i++) {
             GoogleBooksResult result = new GoogleBooksResult();
             result.setVolumeInfo(new VolumeInfo());
-            result.getVolumeInfo().setTitle("success-" + i);
+            result.getVolumeInfo().setTitle(Character.toString((char) (97+i))+"-success-" + i);
             result.getVolumeInfo().setAuthors(
                     new ArrayList<String>(Arrays.asList("author-" + i)));
             googleBooksResults.getItems().add(result);
@@ -106,7 +106,12 @@ public class SearchBooksAndMusicResourceTest {
         assertTrue("I must have 10 results", actualResults.size() == 10);
         int albumsQuantity = 0;
         int booksQuantity = 0;
+        String previousTitle = "";
         for (SearchBooksAndMusicResult searchBooksAndMusicResult : actualResults) {
+            if (searchBooksAndMusicResult.getTitle().compareTo(previousTitle) < 0) {
+                fail("The results are not ordered: "+
+                        searchBooksAndMusicResult.getTitle()+" - "+previousTitle);
+            }
             if (searchBooksAndMusicResult.getType().equals(
                     SearchBooksAndMusicResult.ALBUM)) {
                 albumsQuantity++;
@@ -128,4 +133,5 @@ public class SearchBooksAndMusicResourceTest {
                 response.getStatus() == Response.Status.GATEWAY_TIMEOUT
                         .getStatusCode());
     }
+    
 }
