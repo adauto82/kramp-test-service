@@ -1,3 +1,5 @@
+resultsLimit: 5 # limits the upstream services results
+timeout: 60 #The timeout of all of the request, i would prefer to have an nginx in fron of the app for this
 jerseyClient:
   minThreads: 1
   maxThreads: 128
@@ -5,9 +7,7 @@ jerseyClient:
   gzipEnabled: true
   gzipEnabledForRequests: true
   chunkedEncodingEnabled: true
-#  connectionRequestTimeout: 2000ms # Google API avg time to first byte is 1200 ms
-#  connectionTimeout: 2000ms # Google API avg time to first byte is 1200 ms
-  timeout: 2000ms
+  timeout: 5000ms
 #This is just the configuration for logging
 logging:
   level: INFO
