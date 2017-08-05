@@ -43,7 +43,7 @@ public class KrampTestServiceApplication extends
         // Search resource initialization and register
         final SearchBooksAndMusicResource searchResource = new SearchBooksAndMusicResource(
                 itunesSearchClient, googleAPIClient,
-                configuration.getResultsLimit());
+                configuration.getResultsLimit(), configuration.getTimeout());
         environment.jersey().register(searchResource);
         // Search healthCheck initialization and register
         final GoogleAPIHealthCheck googleHealthCheck = new GoogleAPIHealthCheck(
