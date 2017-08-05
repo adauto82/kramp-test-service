@@ -29,7 +29,7 @@ public class GoogleAPIClient {
         // Otherwise magazines could come
         googleAPIResource = googleAPIResource.queryParam("printType", "books");
         googleAPIResource = googleAPIResource.queryParam("maxResults",
-                maxResults != null ? maxResults : ServiceHelper.DEFAULT_LIMIT);
+                maxResults != null ? maxResults : ServiceConstants.DEFAULT_LIMIT);
 
         Invocation.Builder googleAPIInvocationBuilder = googleAPIResource
                 .request(MediaType.APPLICATION_JSON_TYPE);

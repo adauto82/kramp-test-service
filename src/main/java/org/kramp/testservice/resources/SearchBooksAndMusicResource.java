@@ -24,7 +24,7 @@ import org.kramp.testservice.api.itunes.ITunesSearchResult;
 import org.kramp.testservice.api.itunes.ITunesSearchResults;
 import org.kramp.testservice.client.GoogleAPIClient;
 import org.kramp.testservice.client.ITunesSearchClient;
-import org.kramp.testservice.client.ServiceHelper;
+import org.kramp.testservice.client.ServiceConstants;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -45,7 +45,7 @@ public class SearchBooksAndMusicResource {
         this.itunesClient = itunesSearchClient;
         this.googleAPIClient = googleAPIClient;
         this.maxResults = maxResults != null ? maxResults
-                : ServiceHelper.DEFAULT_LIMIT;
+                : ServiceConstants.DEFAULT_LIMIT;
         this.timeout = timeout;
     }
     

@@ -36,7 +36,7 @@ public class ITunesSearchClient {
         itunesSearchResource = itunesSearchResource.queryParam("entity",
                 "album");
         itunesSearchResource = itunesSearchResource.queryParam("limit",
-                maxResults != null ? maxResults : ServiceHelper.DEFAULT_LIMIT);
+                maxResults != null ? maxResults : ServiceConstants.DEFAULT_LIMIT);
 
         Invocation.Builder itunesSearchInvocationBuilder = itunesSearchResource
                 .request(MediaType.APPLICATION_JSON_TYPE);
