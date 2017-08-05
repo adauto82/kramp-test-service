@@ -113,8 +113,7 @@ public class SearchBooksAndMusicResource {
                     }
                 }
                 //Sort the result by title alphabetically.
-                serviceResponse.stream().sorted(
-                        (searchResult, anotherSearchResult) -> searchResult.getTitle()
+                serviceResponse.sort((searchResult, anotherSearchResult) -> searchResult.getTitle()
                         .compareTo(anotherSearchResult.getTitle()));
                 return serviceResponse;                
             }
