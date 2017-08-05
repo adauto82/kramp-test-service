@@ -13,6 +13,9 @@ public class SearchBooksAndMusicResult {
      * Requirement The response elements will only contain title,
      * authors(/artists) and information whether it's a book or an album.
      */
+    
+    public SearchBooksAndMusicResult() {
+    }
 
     public SearchBooksAndMusicResult(String title, String authors, String type) {
         this.title = title;
