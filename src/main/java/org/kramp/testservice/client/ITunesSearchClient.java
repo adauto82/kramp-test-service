@@ -36,17 +36,19 @@ public class ITunesSearchClient {
         itunesSearchResource = itunesSearchResource.queryParam("entity",
                 "album");
         itunesSearchResource = itunesSearchResource.queryParam("limit",
-                maxResults != null ? maxResults : ServiceConstants.DEFAULT_LIMIT);
+                maxResults != null ? maxResults
+                        : ServiceConstants.DEFAULT_LIMIT);
 
         Invocation.Builder itunesSearchInvocationBuilder = itunesSearchResource
                 .request(MediaType.APPLICATION_JSON_TYPE);
         Future<Response> futureResponse = itunesSearchInvocationBuilder.async()
                 .get();
-        Response itunesSearchResponse;
+        Response itunesSearchResponse = null;
         try {
             itunesSearchResponse = futureResponse.get();
             if (itunesSearchResponse != null
-                    && itunesSearchResponse.getStatus() == Response.Status.OK.getStatusCode()) {
+                    && itunesSearchResponse.getStatus() == Response.Status.OK
+                            .getStatusCode()) {
                 results = itunesSearchResponse
                         .readEntity(ITunesSearchResults.class);
             }
@@ -58,6 +60,10 @@ public class ITunesSearchClient {
             LoggerFactory.getLogger(this.getClass()).error(
                     "Error on ITunesSearchResults.searchAlbums, Execution: "
                             + e.getMessage());
+        } finally {
+            if (itunesSearchResponse != null) {
+                itunesSearchResponse.close();
+            }
         }
         return results;
     }

@@ -29,17 +29,20 @@ public class GoogleAPIClient {
         // Otherwise magazines could come
         googleAPIResource = googleAPIResource.queryParam("printType", "books");
         googleAPIResource = googleAPIResource.queryParam("maxResults",
-                maxResults != null ? maxResults : ServiceConstants.DEFAULT_LIMIT);
+                maxResults != null ? maxResults
+                        : ServiceConstants.DEFAULT_LIMIT);
 
         Invocation.Builder googleAPIInvocationBuilder = googleAPIResource
                 .request(MediaType.APPLICATION_JSON_TYPE);
         Future<Response> futureResponse = googleAPIInvocationBuilder.async()
                 .get();
 
+        Response googleResponse = null;
         try {
-            Response googleResponse = futureResponse.get();
+            googleResponse = futureResponse.get();
             if (googleResponse != null
-                    && googleResponse.getStatus() == Response.Status.OK.getStatusCode()) {
+                    && googleResponse.getStatus() == Response.Status.OK
+                            .getStatusCode()) {
                 results = googleResponse.readEntity(GoogleBooksResults.class);
             }
         } catch (InterruptedException e) {
@@ -50,6 +53,10 @@ public class GoogleAPIClient {
             LoggerFactory.getLogger(this.getClass()).error(
                     "Error on GoogleBooksResults.searchBooks, Execution: "
                             + e.getMessage());
+        } finally {
+            if (googleResponse != null) {
+                googleResponse.close();
+            }
         }
 
         return results;
