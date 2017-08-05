@@ -1,5 +1,11 @@
 # KrampTestService
 
+Requirements
+---
+
+1. JAVA 8
+1. maven 3
+
 How to start the KrampTestService application
 ---
 
